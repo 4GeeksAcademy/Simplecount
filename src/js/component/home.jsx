@@ -1,26 +1,65 @@
+
 import React from "react";
+import ReactDOM from "react-dom";
+import { useState, useEffect } from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
-//create your first component
 const Home = () => {
+	const [count, setCount] = useState(0);
+	const [isRunning, setIsRunning] = useState(false);
+
+	useEffect(() => {
+		let intervalId;
+
+		if (isRunning) {
+			intervalId = setInterval(() => {
+				setCount(prevCount => prevCount + 1);
+			}, 1000);
+		}
+
+		return () => {
+			clearInterval(intervalId);
+		};
+	}, [isRunning]);
+
+	const handleStart = () => {
+		setIsRunning(true);
+	};
+
+	const handleStop = () => {
+		setIsRunning(false);
+	};
+
+	const handleCountdown = () => {
+		setCount(prevCount => prevCount - 1);
+	};
+
+	const handleRestart = () => {
+		setCount(0);
+	};
+
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="center">
+			<div className="count-boxes">
+				<div className="count-box">{count}</div>
+
+				
+			</div>
+			<div className="buttons">
+				<button onClick={handleStart}>Start</button>
+				<button onClick={handleStop}>Stop</button>
+				<button onClick={handleCountdown}>Countdown</button>
+				<button onClick={handleRestart}>Restart</button>
+			</div>
 		</div>
 	);
 };
 
 export default Home;
+
+		
+		
+	
+
+
+	
